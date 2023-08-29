@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, CssBaseline, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 
-import signupImage from "../assets/signup-image.jpg";
+import signupImage from "../assets/signup-image-pro.jpg";
 
 const SignUp = () => {
     return (

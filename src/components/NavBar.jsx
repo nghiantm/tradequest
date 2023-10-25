@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useLocation } from "react-router-dom";
 import { auth } from "../firebase";
+import Image from "mui-image";
 
 const LoggedOutView = ({ pathname }) => {
     const isCurrent = (path) => {
@@ -83,7 +84,7 @@ const LoggedOutView = ({ pathname }) => {
     )
 }
 
-const LoggedInView = ({ pathname }) => {
+const LoggedInView = ({ pathname, user }) => {
     const isCurrent = (path) => {
         return pathname === path;
     };
@@ -134,21 +135,30 @@ const LoggedInView = ({ pathname }) => {
                                 color: isCurrent('/trading') ? "#000000cc" : "inherit"
                             }}
                         >
-                            Trading Simulator
+                            Trade Stocks
                         </Typography>
                     </ButtonBase>
 
                     <ButtonBase 
                         component={Link}
                         to="/account"
-                        sx={{ px: 5/8, mx: 12/8 }}>
-                        <Typography
+                        sx={{ px: 5/8, mx: 12/8 }}
+                    >
+                        <Box
                             sx={{
-                                color: isCurrent('/account') ? "#000000cc" : "inherit"
+                                display: "flex",
+                                overflow: "hidden",
+                                alignItems: "center"
                             }}
-                        >
-                            Account
-                        </Typography>
+                        >   
+                            <Typography
+                                sx={{
+                                    color: isCurrent('/account') ? "#000000cc" : "inherit",
+                                }}
+                            >
+                                {user.displayName}
+                            </Typography>
+                        </Box>
                     </ButtonBase>
                 </Toolbar>
             </AppBar>
@@ -159,10 +169,9 @@ const LoggedInView = ({ pathname }) => {
 const NavBar = props => {
     const location = useLocation();
     const [user, loading, error] = useAuthState(auth);
-    console.log(user);
     
     return user 
-        ? <LoggedInView pathname={location.pathname} /> 
+        ? <LoggedInView pathname={location.pathname} user={user} /> 
         : <LoggedOutView pathname={location.pathname} />;
 
 }

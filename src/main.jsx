@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material'
+
 import { Provider } from 'react-redux'
 import { store } from './store.js'
 
@@ -23,20 +24,48 @@ const theme = createTheme({
       fontWeight: 400
     },  
     body: {
-      fontsize: '1.25rem',
+      fontsize: '1.2rem',
       fontWeight: 300
     },
   },
+  components: {
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: "0.8rem",
+          textTransform: "uppercase"
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputBase-root.Mui-disabled': {
+            backgroundColor: '#ecf0f1',
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          '& .Mui-disabled': {
+            backgroundColor: '#ecf0f1',
+          },
+        },
+      },
+    }
+  },
   palette: {
     background: {
-      default: "#f5f5f7"
+      default: "#fff"
     }
   }
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Provider store={(store)}>
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <App />

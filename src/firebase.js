@@ -4,9 +4,16 @@ import { getAnalytics } from "firebase/analytics";
 import {
     getAuth,
     signInWithEmailAndPassword,
-    signOut
+    createUserWithEmailAndPassword,
+    signOut,
 } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+import {
+    getFirestore,
+    addDoc,
+    collection
+} from "firebase/firestore"
+import { async } from "@firebase/util";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,8 +32,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 
 // Login function
 export const logInWithEmailAndPassword = async (email, password) => {
@@ -38,10 +45,28 @@ export const logInWithEmailAndPassword = async (email, password) => {
     }
 }
 
+export const registerWithEmailAndPassword = async (email, password) => {
+    try {
+       await createUserWithEmailAndPassword(auth, email, password);
+
+       
+       /* const user = response.user;
+       await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name,
+        authProvider: "local",
+        email
+       }); */
+    } catch (e) {
+        console.log(e);
+        alert(e.message);
+    }
+}
+
 export const logout = () => {
     signOut(auth);
 }
-
+/*
 export const writeTransaction = (userID, transactionData) => {
     const db = getDatabase();
     const ref = ref(db, `users/${userID}/transactions/${transactionData.symbol}`)
@@ -51,3 +76,4 @@ export const writeTransaction = (userID, transactionData) => {
     })
 
 }
+*/

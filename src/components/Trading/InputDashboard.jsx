@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Autocomplete, Box, Container, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, ButtonBase, Container, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAction, setList, setQuantity, setSymbol, setType } from "../../actions/trading";
+import Loading from "../Loading";
 
 const InputDashboard = () => {
     const state = useSelector((state) => state.trading);
+    const symbolInfo = useSelector((state) => state.trading.symbolInfo);
     const dispatch = useDispatch();
-
-    console.log(state);
 
     const searchSymbol = async (symbol) => {
         axios
@@ -21,6 +21,24 @@ const InputDashboard = () => {
                 alert(err);
             })
     };
+
+    const formatNumber = (number) => {
+        if (number >= 1e12) {
+          // Convert to trillions (T)
+          return (number / 1e12).toFixed(1) + 'T';
+        } else if (number >= 1e9) {
+          // Convert to billions (B)
+          return (number / 1e9).toFixed(1) + 'B';
+        } else if (number >= 1e6) {
+          // Convert to millions (M)
+          return (number / 1e6).toFixed(1) + 'M';
+        } else if (number >= 1e3) {
+          // Convert to thousands (K)
+            return (number / 1e3).toFixed(1).replace(/\.000$/, '') + 'K';
+        } else {
+            return (number / 1).toFixed(2);
+        }
+    } 
 
     return (
         <Box
@@ -62,7 +80,6 @@ const InputDashboard = () => {
                             if (reason === "reset") {
                                 null
                             } else {
-                                console.log("OnIntChange", newInputValue);
                                 if (newInputValue) {
                                     await searchSymbol(newInputValue);
                                 }
@@ -83,21 +100,6 @@ const InputDashboard = () => {
                 </Grid>
 
                 <Grid item xs={12} md={2}>
-                    <InputLabel>Quantity</InputLabel>
-
-                    <TextField
-                        size="small"
-                        type="number"
-                        id="quantity"
-                        value={state.quantity}
-                        onChange={(e) => {
-                            dispatch(setQuantity(e.target.value))
-                        }}
-                        fullWidth
-                    />
-                </Grid>
-
-                <Grid item xs={12} md={2}>
                     <InputLabel>Type</InputLabel>
 
                     <Select
@@ -114,7 +116,22 @@ const InputDashboard = () => {
                     </Select>
                 </Grid>
 
-                <Grid item xs={12} md={1}>
+                <Grid item xs={6} md={1}>
+                    <InputLabel>Quantity</InputLabel>
+
+                    <TextField
+                        size="small"
+                        type="number"
+                        id="quantity"
+                        value={state.quantity}
+                        onChange={(e) => {
+                            dispatch(setQuantity(e.target.value))
+                        }}
+                        fullWidth
+                    />
+                </Grid>
+
+                <Grid item xs={6} md={1}>
                     <InputLabel>Limit/Stop Price</InputLabel>
 
                     <TextField
@@ -133,7 +150,7 @@ const InputDashboard = () => {
                     />
                 </Grid>
 
-                <Grid item xs={6} md={2}>
+                <Grid item xs={12} md={2}>
                     <InputLabel>Order Term</InputLabel>
 
                     <Select
@@ -153,7 +170,7 @@ const InputDashboard = () => {
                     </Select>
                 </Grid>
         
-                <Grid item xs={6} md={1}>
+                <Grid item xs={12} md={2}>
                     <InputLabel>Date</InputLabel>
 
                     <TextField
@@ -170,6 +187,222 @@ const InputDashboard = () => {
                         fullWidth
                     />
                 </Grid>
+
+                {
+                    //2nd row
+                }
+
+                {
+                    symbolInfo.data 
+                    ? ( 
+                    <>
+                        <Grid item xs={12} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Last:
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.currentPrice)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Open:
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.open)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Close:
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.previousClose)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Bid: 
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.bid)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Ask: 
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.ask)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    High:
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.dayHigh)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Low: 
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.dayLow)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Volume: 
+                                </Typography>
+                                <Typography variant="body" fontWeight={700}>
+                                    {formatNumber(symbolInfo.data.volume)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={6} md={2}>
+                            <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                <Typography
+                                    variant="body"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                Recommend:
+                                </Typography>
+                                <Typography 
+                                    variant="body" 
+                                    fontWeight={700}
+                                    sx={{
+                                        color: symbolInfo.data.recommendationKey === "buy" 
+                                            ? "#089981"
+                                            : "#f7525f"
+                                    }}
+                                >
+                                    {symbolInfo.data.recommendationKey.toUpperCase()}
+                                </Typography>
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={12} md={2}>
+                            <Button 
+                                size="large"
+                                sx={{
+                                    bgcolor: state.action === "Buy"
+                                        ? "#30CB30"
+                                        : "#DC143C",
+                                    color: state.action === "Buy"
+                                        ? "#000"
+                                        : "#fff",
+                                    "&:hover": {
+                                        bgcolor: state.action === "Buy"
+                                            ? "#26a226"
+                                            : "#b01030"
+                                    },
+
+                                }}
+                                fullWidth
+                            >
+                                {
+                                    state.action === "Buy"
+                                        ? (
+                                            <Typography variant="body" fontWeight={700}>
+                                                BUY
+                                            </Typography>
+                                        )
+                                        : (
+                                            <Typography variant="body" fontWeight={700}>
+                                                SELL
+                                            </Typography>
+                                        )
+                                }
+                            </Button>
+                        </Grid>
+                    </>
+                    ) : null
+                }
             </Grid>
         </Box>
     )

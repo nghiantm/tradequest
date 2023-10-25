@@ -92,10 +92,7 @@ const LoggedInView = ({ pathname, user }) => {
     return (
         <Box 
         sx={{
-            bgcolor: "transparent",
-            backdropFilter: "blur(5px)",
-            position: "sticky",
-            top: 0
+            bgcolor: "#fff",
         }}
         >
             <AppBar 

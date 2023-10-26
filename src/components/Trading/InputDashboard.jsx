@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Autocomplete, Box, Button, ButtonBase, Container, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setAction, setList, setQuantity, setSymbol, setType } from "../../actions/trading";
+import { setAction, setList, setOpenOrderConfirmation, setQuantity, setSymbol, setType } from "../../actions/trading";
 import Loading from "../Loading";
 
 const InputDashboard = () => {
@@ -242,7 +242,7 @@ const InputDashboard = () => {
                                         whiteSpace: 'nowrap'
                                     }}
                                 >
-                                    Close:
+                                    Prev. close:
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
                                     {formatNumber(symbolInfo.data.previousClose)}
@@ -361,7 +361,12 @@ const InputDashboard = () => {
                                             : "#f7525f"
                                     }}
                                 >
-                                    {symbolInfo.data.recommendationKey.toUpperCase()}
+                                    
+                                    {
+                                        symbolInfo.data.recommendationKey
+                                            ? symbolInfo.data.recommendationKey.toUpperCase()
+                                            : "NONE"
+                                    }
                                 </Typography>
                             </Box>
                         </Grid>
@@ -384,6 +389,7 @@ const InputDashboard = () => {
 
                                 }}
                                 fullWidth
+                                onClick={(e) => {dispatch(setOpenOrderConfirmation(true))}}
                             >
                                 {
                                     state.action === "Buy"

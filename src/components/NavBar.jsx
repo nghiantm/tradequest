@@ -1,9 +1,9 @@
 import { AppBar, Box, Button, ButtonBase, CssBaseline, ThemeProvider, Toolbar, Typography, createTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useLocation } from "react-router-dom";
-import { auth } from "../firebase";
-import Image from "mui-image";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { auth, logout } from "../firebase";
+import { useSelector } from "react-redux";
 
 const LoggedOutView = ({ pathname }) => {
     const isCurrent = (path) => {
@@ -84,81 +84,155 @@ const LoggedOutView = ({ pathname }) => {
     )
 }
 
-const LoggedInView = ({ pathname, user }) => {
+const LoggedInView = ({ pathname, user, balance }) => {
     const isCurrent = (path) => {
         return pathname === path;
     };
+    
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        logout();
+        navigate("/");
+    };
 
     return (
-        <Box 
-        sx={{
-            bgcolor: "#fff",
-        }}
-        >
-            <AppBar 
-                position="static"
-                sx={{ 
-                    bgcolor: "inherit", 
-                    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)"
-                }}
+        <Box>
+            <Box 
+            sx={{
+                bgcolor: "#013666",
+            }}
             >
-                <CssBaseline />
-                <Toolbar sx={{ color: "#0000004d" }}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <ButtonBase 
-                            sx={{ 
-                                justifyContent: "flex-start",
-                                mx: 12/8
-                            }}
-                        >
+                <AppBar 
+                    position="static"
+                    sx={{ 
+                        bgcolor: "inherit",
+                    }}
+                >
+                    <CssBaseline />
+                    <Toolbar variant="dense" sx={{ color: "#0000004d" }}>
+                        <Box sx={{ flexGrow: 1 }}>
                             <Typography
                                 sx={{
-                                    fontSize: 20,
-                                    fontWeight: 700,
-                                    color: "#313131"
+                                    color: "#fff",
+                                    ml: 18/8
                                 }}
                             >
-                                TradeQuest
-                            </Typography>
-                        </ButtonBase>
-                    </Box>
-
-                    <ButtonBase 
-                        component={Link}
-                        to="/trading"
-                        sx={{ px: 5/8, mx: 12/8 }}>
-                        <Typography
-                            sx={{
-                                color: isCurrent('/trading') ? "#000000cc" : "inherit"
-                            }}
-                        >
-                            Trade Stocks
-                        </Typography>
-                    </ButtonBase>
-
-                    <ButtonBase 
-                        component={Link}
-                        to="/account"
-                        sx={{ px: 5/8, mx: 12/8 }}
-                    >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                overflow: "hidden",
-                                alignItems: "center"
-                            }}
-                        >   
-                            <Typography
-                                sx={{
-                                    color: isCurrent('/account') ? "#000000cc" : "inherit",
-                                }}
-                            >
-                                {user.displayName}
+                                Balance: ${balance.toLocaleString()}
                             </Typography>
                         </Box>
-                    </ButtonBase>
-                </Toolbar>
-            </AppBar>
+
+                        <ButtonBase 
+                            sx={{ px: 5/8, mx: 12/8 }}>
+                            <Typography
+                                sx={{
+                                    color: "#fff",
+                                    fontSize: "0.9rem"
+                                }}
+                            >
+                                Welcome, {user.displayName}
+                            </Typography>
+                        </ButtonBase>
+
+                        <ButtonBase 
+                            sx={{ px: 5/8, mx: 12/8 }}
+                            onClick={logOut}
+                        >
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    overflow: "hidden",
+                                    alignItems: "center"
+                                }}
+                            >   
+                                <Typography
+                                    sx={{
+                                        color: "#fff",
+                                        fontSize: "0.9rem"
+                                    }}
+                                >
+                                    Logout
+                                </Typography>
+                            </Box>
+                        </ButtonBase>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+
+            <Box 
+            sx={{
+                bgcolor: "#025fb2",
+            }}
+            >
+                <AppBar 
+                    position="static"
+                    sx={{ 
+                        bgcolor: "inherit", 
+                        boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)"
+                    }}
+                >
+                    <CssBaseline />
+                    <Toolbar sx={{ color: "#0000004d" }}>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <ButtonBase 
+                                sx={{ 
+                                    justifyContent: "flex-start",
+                                    mx: 12/8
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        fontSize: 20,
+                                        fontWeight: 700,
+                                        color: "#fff"
+                                    }}
+                                >
+                                    TradeQuest
+                                </Typography>
+                            </ButtonBase>
+                        </Box>
+
+                        <ButtonBase 
+                            component={Link}
+                            to="/trading"
+                            sx={{ px: 5/8, mx: 12/8 }}>
+                            <Typography
+                                sx={{
+                                    color: "#fff",
+                                    textDecoration: isCurrent('/trading') ? "underline" : "none",
+                                    textUnderlineOffset: 4
+                                }}
+                            >
+                                Trade Stocks
+                            </Typography>
+                        </ButtonBase>
+
+                        <ButtonBase 
+                            component={Link}
+                            to="/account"
+                            sx={{ px: 5/8, mx: 12/8 }}
+                        >
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    overflow: "hidden",
+                                    alignItems: "center"
+                                }}
+                            >   
+                                <Typography
+                                    sx={{
+                                        color: "#fff",
+                                        textDecoration: isCurrent('/account') ? "underline" : "none",
+                                        textUnderlineOffset: 4
+                                    }}
+                                >
+                                    Account
+                                </Typography>
+                            </Box>
+                        </ButtonBase>
+                    </Toolbar>
+                </AppBar>
+            </Box>
         </Box>
     )
 }
@@ -166,9 +240,10 @@ const LoggedInView = ({ pathname, user }) => {
 const NavBar = props => {
     const location = useLocation();
     const [user, loading, error] = useAuthState(auth);
+    const balance = useSelector((state) => state.account.balance);
     
-    return user 
-        ? <LoggedInView pathname={location.pathname} user={user} /> 
+    return user
+        ? <LoggedInView pathname={location.pathname} user={user} balance={balance} /> 
         : <LoggedOutView pathname={location.pathname} />;
 
 }

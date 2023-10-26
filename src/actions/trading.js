@@ -6,7 +6,10 @@ import {
     SET_TYPE,
     SET_LIMIT,
     SET_TERM,
-    SET_SYMBOL_INFO
+    SET_SYMBOL_INFO,
+    SET_OPEN_ORDER_CONFIRMATION,
+    SET_BALANCE,
+    SET_OPEN_ORDER_FULFILL
 } from "../constants/actionTypes";
 
 export const setAction = (action) => {
@@ -48,5 +51,20 @@ export const setSymbolInfo = (data) => {
     return {
         type: SET_SYMBOL_INFO,
         data: data
+    }
+}
+
+export const setOpenOrderConfirmation = (status) => {
+    //boolean status: true/false
+    return {
+        type: SET_OPEN_ORDER_CONFIRMATION,
+        status: status
+    }
+}
+
+export const setOpenOrderFulfilled = (status) => {
+    return {
+        type: SET_OPEN_ORDER_FULFILL,
+        status: status
     }
 }

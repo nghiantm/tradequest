@@ -100,7 +100,7 @@ const LoggedInView = ({ pathname, user, balance }) => {
         <Box>
             <Box 
             sx={{
-                bgcolor: "#013666",
+                bgcolor: "#025fb2",
             }}
             >
                 <AppBar 
@@ -115,7 +115,8 @@ const LoggedInView = ({ pathname, user, balance }) => {
                             <Typography
                                 sx={{
                                     color: "#fff",
-                                    ml: 18/8
+                                    ml: 18/8,
+                                    fontSize: "0.9rem"
                                 }}
                             >
                                 Balance: ${balance.toLocaleString()}
@@ -161,7 +162,7 @@ const LoggedInView = ({ pathname, user, balance }) => {
 
             <Box 
             sx={{
-                bgcolor: "#025fb2",
+                bgcolor: "#fff",
             }}
             >
                 <AppBar 
@@ -184,7 +185,7 @@ const LoggedInView = ({ pathname, user, balance }) => {
                                     sx={{
                                         fontSize: 20,
                                         fontWeight: 700,
-                                        color: "#fff"
+                                        color: "#000"
                                     }}
                                 >
                                     TradeQuest
@@ -194,11 +195,26 @@ const LoggedInView = ({ pathname, user, balance }) => {
 
                         <ButtonBase 
                             component={Link}
+                            to="/portfolio"
+                            sx={{ px: 5/8, mx: 12/8 }}>
+                            <Typography
+                                sx={{
+                                    color: "#000",
+                                    textDecoration: isCurrent('/portfolio') ? "underline" : "none",
+                                    textUnderlineOffset: 4
+                                }}
+                            >
+                                Portfolio
+                            </Typography>
+                        </ButtonBase>
+
+                        <ButtonBase 
+                            component={Link}
                             to="/trading"
                             sx={{ px: 5/8, mx: 12/8 }}>
                             <Typography
                                 sx={{
-                                    color: "#fff",
+                                    color: "#000",
                                     textDecoration: isCurrent('/trading') ? "underline" : "none",
                                     textUnderlineOffset: 4
                                 }}
@@ -221,7 +237,7 @@ const LoggedInView = ({ pathname, user, balance }) => {
                             >   
                                 <Typography
                                     sx={{
-                                        color: "#fff",
+                                        color: "#000",
                                         textDecoration: isCurrent('/account') ? "underline" : "none",
                                         textUnderlineOffset: 4
                                     }}

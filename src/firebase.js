@@ -68,31 +68,21 @@ export const registerWithEmailAndPassword = async (email, password) => {
 export const logout = () => {
     signOut(auth);
 }
-/*
-export const writeTransaction = (userID, transactionData) => {
-    const db = getDatabase();
-    const ref = ref(db, `users/${userID}/transactions/${transactionData.symbol}`)
-
-    set(ref, {
-
-    })
-
-}
-*/
 
 export const writeTransaction = async (userID, balance, symbol, shares, price) => {
     const transactionUserDocRef = doc(db, "transactions", userID);
-    const symbolCollectionRef = collection(transactionUserDocRef, symbol);
+    const historyCollectionRef = collection(transactionUserDocRef, "history");
 
     const userDocRef = doc(db, "users", userID);
 
     try {
         //add transaction
-        await addDoc(symbolCollectionRef, {
+        await addDoc(historyCollectionRef, {
+            date: new Date(),
+            symbol: symbol,
             shares: shares,
             price: price,
             cost: shares*price,
-            date: new Date(),
         })
         //update balance
         await updateDoc(userDocRef, {

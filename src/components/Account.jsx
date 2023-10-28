@@ -16,11 +16,7 @@ const Account = () => {
 
     return (
         <Box>
-            <Button
-                onClick={logout}
-            >
-                Sign Out
-            </Button>
+            Update Account
         </Box>
     )
 }

@@ -7,9 +7,10 @@ import {
     SET_LIMIT,
     SET_TERM,
     SET_SYMBOL_INFO,
-    SET_OPEN_ORDER_CONFIRMATION,
+    SET_OPEN_BUY_ORDER_CONFIRMATION,
     SET_BALANCE,
-    SET_OPEN_ORDER_FULFILL
+    SET_OPEN_ORDER_FULFILL,
+    SET_OPEN_SELL_ORDER_CONFIRMATION
 } from "../constants/actionTypes";
 
 export const setAction = (action) => {
@@ -54,10 +55,10 @@ export const setSymbolInfo = (data) => {
     }
 }
 
-export const setOpenOrderConfirmation = (status) => {
+export const setOpenBuyOrderConfirmation = (status) => {
     //boolean status: true/false
     return {
-        type: SET_OPEN_ORDER_CONFIRMATION,
+        type: SET_OPEN_BUY_ORDER_CONFIRMATION,
         status: status
     }
 }
@@ -65,6 +66,13 @@ export const setOpenOrderConfirmation = (status) => {
 export const setOpenOrderFulfilled = (status) => {
     return {
         type: SET_OPEN_ORDER_FULFILL,
+        status: status
+    }
+}
+
+export const setOpenSellOrderConfirmation = (status) => {
+    return {
+        type: SET_OPEN_SELL_ORDER_CONFIRMATION,
         status: status
     }
 }

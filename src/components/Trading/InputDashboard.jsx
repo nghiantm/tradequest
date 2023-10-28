@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Autocomplete, Box, Button, ButtonBase, Container, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setAction, setList, setOpenOrderConfirmation, setQuantity, setSymbol, setType } from "../../actions/trading";
+import { setAction, setList, setOpenBuyOrderConfirmation, setOpenSellOrderConfirmation, setQuantity, setSymbol, setType } from "../../actions/trading";
 import Loading from "../Loading";
 
 const InputDashboard = () => {
@@ -372,39 +372,55 @@ const InputDashboard = () => {
                         </Grid>
 
                         <Grid item xs={12} md={2}>
-                            <Button 
-                                size="large"
-                                sx={{
-                                    bgcolor: state.action === "Buy"
-                                        ? "#30CB30"
-                                        : "#DC143C",
-                                    color: state.action === "Buy"
-                                        ? "#000"
-                                        : "#fff",
-                                    "&:hover": {
+                            {
+                                state.action === "Buy"
+                                ? <Button 
+                                    size="large"
+                                    sx={{
+                                        bgcolor: state.action === "Buy"
+                                            ? "#30CB30"
+                                            : "#DC143C",
+                                        color: state.action === "Buy"
+                                            ? "#000"
+                                            : "#fff",
+                                        "&:hover": {
+                                            bgcolor: state.action === "Buy"
+                                                ? "#26a226"
+                                                : "#b01030"
+                                        },
+
+                                    }}
+                                    fullWidth
+                                    onClick={(e) => {dispatch(setOpenBuyOrderConfirmation(true))}}
+                                >
+                                    <Typography variant="body" fontWeight={700}>
+                                        BUY
+                                    </Typography>
+                                </Button>
+                                : <Button 
+                                    size="large"
+                                    sx={{
+                                        bgcolor: state.action === "Buy"
+                                            ? "#30CB30"
+                                            : "#DC143C",
+                                        color: state.action === "Buy"
+                                            ? "#000"
+                                            : "#fff",
+                                        "&:hover": {
                                         bgcolor: state.action === "Buy"
                                             ? "#26a226"
                                             : "#b01030"
-                                    },
+                                        },
 
-                                }}
-                                fullWidth
-                                onClick={(e) => {dispatch(setOpenOrderConfirmation(true))}}
-                            >
-                                {
-                                    state.action === "Buy"
-                                        ? (
-                                            <Typography variant="body" fontWeight={700}>
-                                                BUY
-                                            </Typography>
-                                        )
-                                        : (
-                                            <Typography variant="body" fontWeight={700}>
-                                                SELL
-                                            </Typography>
-                                        )
-                                }
-                            </Button>
+                                    }}
+                                    fullWidth
+                                    onClick={(e) => {dispatch(setOpenSellOrderConfirmation(true))}}
+                                >
+                                    <Typography variant="body" fontWeight={700}>
+                                        SELL
+                                    </Typography>
+                                </Button>
+                            }
                         </Grid>
                     </>
                     ) : null

@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { auth, logout } from "../firebase";
 import { useSelector } from "react-redux";
+import { TickerTape } from "react-ts-tradingview-widgets";
 
 const LoggedOutView = ({ pathname }) => {
     const isCurrent = (path) => {
@@ -11,13 +12,14 @@ const LoggedOutView = ({ pathname }) => {
     };
 
     return (
-        <Box >
+        <Box bgcolor={"#025fb2"}>
             <AppBar 
+                position="static"
                 sx={{ 
-                    bgcolor: "inherit", 
                     boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)"
                 }}
             >
+                <CssBaseline />
                 <Toolbar sx={{ color: "#0000004d" }}>
                     <Box sx={{ flexGrow: 1 }}>
                         <ButtonBase 
@@ -30,7 +32,7 @@ const LoggedOutView = ({ pathname }) => {
                                 sx={{
                                     fontSize: 20,
                                     fontWeight: 700,
-                                    color: "#313131"
+                                    color: "#fff"
                                 }}
                             >
                                 TradeQuest
@@ -45,7 +47,9 @@ const LoggedOutView = ({ pathname }) => {
                     >
                         <Typography
                             sx={{
-                                color: isCurrent('/') ? "#000000cc" : "inherit"
+                                color: "#fff",
+                                textDecoration: isCurrent('/') ? "underline" : "none",
+                                textUnderlineOffset: 4
                             }}
                         >
                             Home
@@ -58,7 +62,7 @@ const LoggedOutView = ({ pathname }) => {
                         sx={{ px: 5/8, mx: 12/8 }}>
                         <Typography
                             sx={{
-                                color: isCurrent('/login') ? "#000000cc" : "inherit"
+                                color: "#fff"
                             }}
                         >
                             Log in
@@ -72,7 +76,7 @@ const LoggedOutView = ({ pathname }) => {
                     >
                         <Typography
                             sx={{
-                                color: isCurrent('/signup') ? "#000000cc" : "inherit "
+                                color: "#fff"
                             }}
                         >
                             Sign up
@@ -80,6 +84,35 @@ const LoggedOutView = ({ pathname }) => {
                     </ButtonBase>
                 </Toolbar>
             </AppBar>
+
+            <Box 
+                bgcolor={"#fff"}
+                sx={{
+                    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)"
+                }}
+            >
+                <TickerTape 
+                    symbols={[
+                        {
+                        "proName": "FOREXCOM:SPXUSD",
+                        "title": "S&P 500"
+                        },
+                        {
+                        "proName": "FOREXCOM:NSXUSD",
+                        "title": "US 100"
+                        },
+                        {
+                        "description": "US 30",
+                        "proName": "BLACKBULL:US30"
+                        },
+                        {
+                        "description": "NASDAQ COMPOSITE",
+                        "proName": "NASDAQ:IXIC"
+                        },
+                    ]}    
+                    displayMode="regular"
+                />
+            </Box>
         </Box>
     )
 }
@@ -99,9 +132,9 @@ const LoggedInView = ({ pathname, user, balance }) => {
     return (
         <Box>
             <Box 
-            sx={{
-                bgcolor: "#025fb2",
-            }}
+                sx={{
+                    bgcolor: "#025fb2",
+                }}
             >
                 <AppBar 
                     position="static"
@@ -161,9 +194,9 @@ const LoggedInView = ({ pathname, user, balance }) => {
             </Box>
 
             <Box 
-            sx={{
-                bgcolor: "#fff",
-            }}
+                sx={{
+                    bgcolor: "#fff",
+                }}
             >
                 <AppBar 
                     position="static"
@@ -192,6 +225,21 @@ const LoggedInView = ({ pathname, user, balance }) => {
                                 </Typography>
                             </ButtonBase>
                         </Box>
+
+                        <ButtonBase 
+                            component={Link}
+                            to="/"
+                            sx={{ px: 5/8, mx: 12/8 }}>
+                            <Typography
+                                sx={{
+                                    color: "#000",
+                                    textDecoration: isCurrent('/') ? "underline" : "none",
+                                    textUnderlineOffset: 4
+                                }}
+                            >
+                                Home
+                            </Typography>
+                        </ButtonBase>
 
                         <ButtonBase 
                             component={Link}

@@ -14,6 +14,7 @@ import { collection, doc, onSnapshot } from 'firebase/firestore'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBalance, setOrderHistory, setTradesMade } from './actions/account'
 import Portfolio from './components/Portfolio/Portfolio'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   const dispatch = useDispatch();
@@ -75,11 +76,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/signup/getstarted" element={<InitAccount />} />
+          <Route path="/signup/getstarted" element={ProtectedRoute(user, <InitAccount />)} />
           <Route path="/login" element={<LogIn />} />
-          <Route path='/account' element={<Account />} />
-          <Route path="/trading" element={<Trading />} />
-          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path='/account' element={ProtectedRoute(user, <Account />)} />
+          <Route path="/trading" element={ProtectedRoute(user, <Trading />)} />
+          <Route path="/portfolio" element={ProtectedRoute(user, <Portfolio />)} />
         </Routes>
       </>
     )

@@ -41,7 +41,7 @@ const SignUp = () => {
     return (
         <Box>
             <CssBaseline />
-            <Grid container spacing={0} sx={{ height: "100vh", overflow: "hidden" }}>
+            <Grid container spacing={0} sx={{ height: "100vh" }}>
                 <Grid 
                     item 
                     sm={6} 

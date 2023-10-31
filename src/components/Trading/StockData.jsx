@@ -20,7 +20,7 @@ const StockData = () => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    alert(err);
+                    alert("The Yahoo Finance server is down. Sorry for the inconvenience");
                 })
         }
     }, [symbol])  

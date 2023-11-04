@@ -7,7 +7,7 @@ import Loading from "../Loading";
 
 const InputDashboard = () => {
     const state = useSelector((state) => state.trading);
-    const symbolInfo = useSelector((state) => state.trading.symbolInfo);
+    const symbolPrice = useSelector((state) => state.trading.symbolPrice);
     const dispatch = useDispatch();
 
     const searchSymbol = async (symbol) => {
@@ -193,7 +193,7 @@ const InputDashboard = () => {
                 }
 
                 {
-                    symbolInfo.data 
+                    symbolPrice && symbolPrice.data
                     ? ( 
                     <>
                         <Grid item xs={12} md={1}>
@@ -209,7 +209,7 @@ const InputDashboard = () => {
                                     Last:
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.currentPrice)}
+                                    {formatNumber(symbolPrice.data.close)}
                                 </Typography>
                             </Box>
                         </Grid>
@@ -227,11 +227,12 @@ const InputDashboard = () => {
                                     Open:
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.open)}
+                                    {formatNumber(symbolPrice.data.open)}
                                 </Typography>
                             </Box>
                         </Grid>
 
+                        {/*
                         <Grid item xs={6} md={1}>
                             <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                                 <Typography
@@ -245,10 +246,11 @@ const InputDashboard = () => {
                                     Prev. close:
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.previousClose)}
+                                    {formatNumber(0)}
                                 </Typography>
                             </Box>
                         </Grid>
+                                */}
 
                         <Grid item xs={6} md={1}>
                             <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
@@ -263,7 +265,7 @@ const InputDashboard = () => {
                                     Bid: 
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.bid)}
+                                    {formatNumber(symbolPrice.data.close)}
                                 </Typography>
                             </Box>
                         </Grid>
@@ -281,7 +283,7 @@ const InputDashboard = () => {
                                     Ask: 
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.ask)}
+                                    {formatNumber(symbolPrice.data.close)}
                                 </Typography>
                             </Box>
                         </Grid>
@@ -299,7 +301,7 @@ const InputDashboard = () => {
                                     High:
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.dayHigh)}
+                                    {formatNumber(symbolPrice.data.high)}
                                 </Typography>
                             </Box>
                         </Grid>
@@ -317,7 +319,7 @@ const InputDashboard = () => {
                                     Low: 
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.dayLow)}
+                                    {formatNumber(symbolPrice.data.low)}
                                 </Typography>
                             </Box>
                         </Grid>
@@ -335,11 +337,23 @@ const InputDashboard = () => {
                                     Volume: 
                                 </Typography>
                                 <Typography variant="body" fontWeight={700}>
-                                    {formatNumber(symbolInfo.data.volume)}
+                                    {formatNumber(symbolPrice.data.volume)}
                                 </Typography>
                             </Box>
                         </Grid>
 
+                        <Grid item xs={6} md={1}>
+                            
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            
+                        </Grid>
+
+                        <Grid item xs={6} md={1}>
+                            
+                        </Grid>
+                        {/*
                         <Grid item xs={6} md={2}>
                             <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                                 <Typography
@@ -370,6 +384,7 @@ const InputDashboard = () => {
                                 </Typography>
                             </Box>
                         </Grid>
+                                */}
 
                         <Grid item xs={12} md={2}>
                             {

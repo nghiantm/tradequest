@@ -14,13 +14,13 @@ const SellOrderConfirmation = () => {
     const openSellOrderConfirmationState = useSelector((state) => state.trading.openSellOrderConfirmation);
     const quantity = Number(useSelector((state) => state.trading.quantity));
     const symbol = useSelector((state) => state.trading.symbol).symbol;
-    const symbolInfo = useSelector((state) => state.trading.symbolInfo);
+    const symbolPrice = useSelector((state) => state.trading.symbolPrice);
     const balance = useSelector((state) => state.account.balance);
     const orderHistory = useSelector((state) => state.account.orderHistory);
 
     const [user, loading, error] = useAuthState(auth);
 
-    return symbolInfo.data && symbolInfo.data.bid && orderHistory && orderHistory[symbol] ? (
+    return symbolPrice.data && symbolPrice.data.close && orderHistory && orderHistory[symbol] ? (
         <Box>
             <Dialog
                 fullScreen={fullScreen}
@@ -33,15 +33,15 @@ const SellOrderConfirmation = () => {
                     orderHistory[symbol].shares >= quantity
                         ? <DialogContent>
                             <DialogContentText>
-                                Place order to sell {quantity} shares at ${symbolInfo.data.bid} (Bidding Price)
+                                Place order to sell {quantity} shares at ${symbolPrice.data.close} (closeding Price)
                             </DialogContentText>
                             <DialogContentText color={"#1972d2"}>
-                                Transaction value: ${quantity*symbolInfo.data.bid} (You have {orderHistory[symbol].shares} shares)
+                                Transaction value: ${quantity*symbolPrice.data.close} (You have {orderHistory[symbol].shares} shares)
                             </DialogContentText>
                         </DialogContent>
                         : <DialogContent>
                         <DialogContentText>
-                            Place order to sell {quantity} shares at ${symbolInfo.data.bid} (Bidding Price)
+                            Place order to sell {quantity} shares at ${symbolPrice.data.close} (closeding Price)
                         </DialogContentText>
                         <DialogContentText color={"#1972d2"}>
                             Insufficient number of shares (You have {orderHistory[symbol].shares} shares)
@@ -58,7 +58,7 @@ const SellOrderConfirmation = () => {
                             <Button 
                                 autoFocus 
                                 onClick={async () => {
-                                    await writeTransaction(user.uid, balance, symbol, (-1)*quantity, symbolInfo.data.bid);
+                                    await writeTransaction(user.uid, balance, symbol, (-1)*quantity, symbolPrice.data.close);
                                     dispatch(setOpenSellOrderConfirmation(false));
                                     dispatch(setOpenOrderFulfilled(true));
                                 }}
@@ -74,29 +74,7 @@ const SellOrderConfirmation = () => {
                 }
             </Dialog>
         </Box>
-    ) : (
-        <Box>
-            <Dialog
-                fullScreen={fullScreen}
-                open={openSellOrderConfirmationState}
-                onClose={() => dispatch(setOpenSellOrderConfirmation(false))}
-            >
-                <DialogTitle>Error</DialogTitle>
-
-                <DialogContent>
-                    <DialogContentText>
-                        We can't trade this stock at this time. Sorry for the inconvenience.
-                    </DialogContentText>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button autoFocus onClick={() => dispatch(setOpenSellOrderConfirmation(false))}>
-                        Close
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
-    )
+    ) : null
 }
 
 export default SellOrderConfirmation;

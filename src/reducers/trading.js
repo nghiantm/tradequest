@@ -7,6 +7,7 @@ const trading = {
     limit: 0,
     term: "Good for Day",
     symbolInfo: {},
+    symbolPrice: {},
     openBuyOrderConfirmation: false,
     openOrderFulfilled: false,
     openSellOrderConfirmation: false,
@@ -43,6 +44,11 @@ export default (state = trading, action) => {
             return {
                 ...state,
                 "symbolInfo": action.data
+            }
+        case 'SET_SYMBOL_PRICE':
+            return {
+                ...state,
+                "symbolPrice": action.data
             }
         case 'SET_OPEN_BUY_ORDER_CONFIRMATION':
             return {

@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SymbolOverview } from "react-ts-tradingview-widgets";
-import { setSymbolInfo } from "../../actions/trading";
+import { setSymbolInfo, setSymbolPrice } from "../../actions/trading";
 import StockFinancials from "./StockData/StockFinancials";
 
 const StockData = () => {
@@ -12,17 +12,27 @@ const StockData = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (symbol) {
-            axios
-                .get(`https://3636mewz2f.execute-api.us-east-1.amazonaws.com/test/getStockInfo?symbol=${symbol.symbol}`)
-                .then((res) => {
-                    dispatch(setSymbolInfo(res.data));
-                })
-                .catch((err) => {
+        const fetchData = async () => {
+            if (symbol) {
+                try {
+                    const res = await axios.get(`https://xo94829u56.execute-api.us-east-1.amazonaws.com/test/getStockData?symbol=${symbol.symbol}`);
+                    console.log(res)
+                    dispatch(setSymbolPrice(res.data));
+                } catch (err) {
                     console.log(err);
-                    alert("The Yahoo Finance server is down. Sorry for the inconvenience");
-                })
+                    alert(err.message);
+                }
+                try {
+                    const res = await axios.get(`https://3636mewz2f.execute-api.us-east-1.amazonaws.com/test/getStockInfo?symbol=${symbol.symbol}`);
+                    dispatch(setSymbolInfo(res.data));
+                } catch (err) {
+                    console.log(err);
+                    alert("The Yahoo Finance server is down. We couldn't fetch the company's information. Sorry for the inconvenience");
+                }
+            }
         }
+
+        fetchData();
     }, [symbol])  
 
     return symbol

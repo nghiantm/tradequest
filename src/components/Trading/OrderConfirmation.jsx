@@ -14,12 +14,12 @@ const BuyOrderConfirmation = () => {
     const openBuyOrderConfirmationState = useSelector((state) => state.trading.openBuyOrderConfirmation)
     const quantity = Number(useSelector((state) => state.trading.quantity));
     const symbol = useSelector((state) => state.trading.symbol);
-    const symbolInfo = useSelector((state) => state.trading.symbolInfo);
+    const symbolPrice = useSelector((state) => state.trading.symbolPrice);
     const balance = useSelector((state) => state.account.balance);
 
     const [user, loading, error] = useAuthState(auth);
 
-    return symbolInfo.data && symbolInfo.data.ask  ? (
+    return symbolPrice && symbolPrice.data  ? (
         <Box>
             <Dialog
                 fullScreen={fullScreen}
@@ -30,12 +30,12 @@ const BuyOrderConfirmation = () => {
 
                 <DialogContent>
                     <DialogContentText>
-                        Place order for {quantity} shares at ${symbolInfo.data.ask} (Asking Price)
+                        Place order for {quantity} shares at ${symbolPrice.data.close} (Asking Price)
                     </DialogContentText>
                     { 
-                        quantity*symbolInfo.data.ask <= balance
+                        quantity*symbolPrice.data.close <= balance
                             ? <DialogContentText color={"#1972d2"}>
-                                Transaction cost: -${quantity*symbolInfo.data.ask}
+                                Transaction cost: -${quantity*symbolPrice.data.close}
                             </DialogContentText>
                             : <DialogContentText color={"#1972d2"}>
                                 Insufficient funds
@@ -44,7 +44,7 @@ const BuyOrderConfirmation = () => {
                 </DialogContent>
 
                 {
-                    quantity*symbolInfo.data.ask <= balance
+                    quantity*symbolPrice.data.close <= balance
                         ? <DialogActions>
                               <Button autoFocus onClick={() => dispatch(setOpenBuyOrderConfirmation(false))}>
                                 Cancel
@@ -52,7 +52,7 @@ const BuyOrderConfirmation = () => {
                             <Button 
                                 autoFocus 
                                 onClick={async () => {
-                                    await writeTransaction(user.uid, balance, symbol.symbol, quantity, symbolInfo.data.ask);
+                                    await writeTransaction(user.uid, balance, symbol.symbol, quantity, symbolPrice.data.close);
                                     dispatch(setOpenBuyOrderConfirmation(false));
                                     dispatch(setOpenOrderFulfilled(true));
                                 }}

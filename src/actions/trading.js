@@ -10,7 +10,8 @@ import {
     SET_OPEN_BUY_ORDER_CONFIRMATION,
     SET_BALANCE,
     SET_OPEN_ORDER_FULFILL,
-    SET_OPEN_SELL_ORDER_CONFIRMATION
+    SET_OPEN_SELL_ORDER_CONFIRMATION,
+    SET_SYMBOL_PRICE
 } from "../constants/actionTypes";
 
 export const setAction = (action) => {
@@ -51,6 +52,13 @@ export const setList = (list) => {
 export const setSymbolInfo = (data) => {
     return {
         type: SET_SYMBOL_INFO,
+        data: data
+    }
+}
+
+export const setSymbolPrice = (data) => {
+    return {
+        type: SET_SYMBOL_PRICE,
         data: data
     }
 }

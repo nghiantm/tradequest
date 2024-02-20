@@ -59,12 +59,14 @@ const Home = () => {
                         sx={{
                             bgcolor: "#fff",
                             boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1), 0px 0px 30px rgba(0, 0, 0, 0.08)",
-                            p: 2
+                            p: 2,
+                            mb: 4
                         }}
                     >
                         <Image 
-                            width={60}
-                            src="https://quatamiha.files.wordpress.com/2021/07/nerdinvestor-1.png"
+                            width={40}
+                            src="src/assets/market.svg"
+                            style={{ paddingBottom: 8 }}
                         />
                         <Typography
                             variant="h4"
@@ -80,6 +82,65 @@ const Home = () => {
                             variant="body"
                         >
                         We use Real Time API to update financial data to make sure that our Simulator Tool provides you an authentic and market-based experience.
+                        </Typography>
+                    </Box>
+
+                    <Box
+                        sx={{
+                            bgcolor: "#fff",
+                            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1), 0px 0px 30px rgba(0, 0, 0, 0.08)",
+                            p: 2,
+                            mb: 4
+                        }}
+                    >
+                        <Image 
+                            width={40}
+                            src="src/assets/stat.svg"
+                            style={{ paddingBottom: 8 }}
+                        />
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                color: "#0388ff",
+                                fontWeight: 500
+                            }}
+                        >
+                            Detailed Statistic
+                        </Typography>
+
+                        <Typography
+                            variant="body"
+                        >
+                        We provide you with a vast amount of important statistic for your trading decision and portfolio. 
+                        </Typography>
+                    </Box>
+
+                    <Box
+                        sx={{
+                            bgcolor: "#fff",
+                            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1), 0px 0px 30px rgba(0, 0, 0, 0.08)",
+                            p: 2,
+                        }}
+                    >
+                        <Image 
+                            width={40}
+                            src="src/assets/stocks.svg"
+                            style={{ paddingBottom: 2 }}
+                        />
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                color: "#0388ff",
+                                fontWeight: 500
+                            }}
+                        >
+                            Wide Range of Stocks
+                        </Typography>
+
+                        <Typography
+                            variant="body"
+                        >
+                        You can choose from thousands of symbols listed on US markets. 
                         </Typography>
                     </Box>
                 </Grid>
